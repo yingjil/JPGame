@@ -71,7 +71,7 @@ export default class Animation extends Sprite {
     ctx.font = '20px Arial'
 
     ctx.fillText(
-      'A',
+      '老婆真棒！',
       this.x,
       this.y
     )

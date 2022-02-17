@@ -51,7 +51,7 @@ export default class Main {
   enemyGenerate() {
     if (databus.frame % 30 === 0) {
       const enemy = databus.pool.getItemByClass('enemy', Enemy)
-      enemy.init(6)
+      enemy.init(Math.floor((Math.random()*5)+3))
       databus.enemys.push(enemy)
     }
   }

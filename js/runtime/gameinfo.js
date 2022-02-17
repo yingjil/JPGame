@@ -4,6 +4,8 @@ const screenHeight = window.innerHeight
 const atlas = new Image()
 atlas.src = 'images/Common.png'
 
+let msg = ''
+
 export default class GameInfo {
   renderGameScore(ctx, score) {
     ctx.fillStyle = '#ffffff'
@@ -14,6 +16,30 @@ export default class GameInfo {
       10,
       30
     )
+
+    if(score >= 10 && score <20) {
+      msg = '生日快乐！'
+    }else if (score >= 20 && score <30) {
+      msg = '真棒，现在截图可以获得大餐一顿！'
+    }else if (score >= 30 && score <50) {
+      msg = '太厉害了，你已获得温泉度假一次！'
+    }else if (score >= 50 && score <100) {
+      msg = '终极大奖：执子之手，与子偕老！'
+    }else if (score >= 100) {
+      msg = '还玩！被你打爆了，以后都听你的！'
+    }
+
+    if(msg != ''){
+      ctx.fillStyle = '#ffffff'
+      ctx.font = '20px Arial'
+
+      ctx.fillText(
+        msg,
+        10,
+        60
+      )
+    }
+
   }
 
   renderGameOver(ctx, score) {
