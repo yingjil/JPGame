@@ -9,6 +9,11 @@ const screenHeight = window.innerHeight
 const PLAYER_IMG_SRC = 'images/hero.png'
 const PLAYER_WIDTH = 80
 const PLAYER_HEIGHT = 80
+const BULLET_FIRE_MAX = 5
+const BULLET_FIRE_MIN = 1
+const BULLET_POS = 15
+const BULLET_OFFSET = 1
+const BULLET_SPEED = 3
 
 const databus = new DataBus()
 
@@ -100,14 +105,48 @@ export default class Player extends Sprite {
       this.touched = false
     }))
   }
-  shoot_beta(pos,index) {
+  /**
+   * 实现火力加强
+   * @param {*} nums 火力数量
+   */
+  shootEnhance(nums){
+    if (nums > BULLET_FIRE_MAX) nums = BULLET_FIRE_MAX;
+    if (nums < BULLET_FIRE_MIN) nums = BULLET_FIRE_MIN;
+    let initPos = 0;
+    let initOffset = 0;
+    if (nums >= 2){
+      initPos = -(Math.floor(nums / 2) * BULLET_POS);
+    }
+    if (nums >= 2){
+      initOffset = -Math.floor(nums / 2) * BULLET_OFFSET;
+    }
+    for(let i = 0; i < nums; i++){
+      if (nums % 2 == 0 && i == nums / 2) {
+        initPos += BULLET_POS;
+        initOffset += BULLET_OFFSET;
+      }
+      this.shootBeta(initPos,nums % 2 == 0 ? 0 : initOffset);
+      initOffset += BULLET_OFFSET;
+      initPos += BULLET_POS;
+    }
+  }
+  /**
+   * 
+   * @param {*} pos 子弹与飞机自身的位置
+   *         例如：
+   *         0:从飞机中间发射； 
+   *         -1：从飞机左侧1个宽度发射
+   *         1：从飞机右侧1个宽度发射
+   * @param {*} offset 子弹射出后，每次刷新时X轴的偏移量
+   */
+  shootBeta(pos,offset) {
     const bullet = databus.pool.getItemByClass('bullet', Bullet)
 
     bullet.init(
       this.x + this.width / 2 - bullet.width / 2 + pos,
       this.y - 10,
-      3,
-      index
+      BULLET_SPEED,
+      offset
     )
 
     databus.bullets.push(bullet)
@@ -117,10 +156,6 @@ export default class Player extends Sprite {
    * 射击时机由外部决定
    */
   shoot() {
-    this.shoot_beta(-30,0);
-    this.shoot_beta(-15,1);
-    this.shoot_beta(0,2);
-    this.shoot_beta(15,3);
-    this.shoot_beta(30,4);
+    this.shootEnhance(Math.floor(databus.score / 10) + 1);
   }
 }
