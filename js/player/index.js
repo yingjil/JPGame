@@ -100,20 +100,27 @@ export default class Player extends Sprite {
       this.touched = false
     }))
   }
+  shoot_beta(pos,index) {
+    const bullet = databus.pool.getItemByClass('bullet', Bullet)
 
+    bullet.init(
+      this.x + this.width / 2 - bullet.width / 2 + pos,
+      this.y - 10,
+      3,
+      index
+    )
+
+    databus.bullets.push(bullet)
+  }
   /**
    * 玩家射击操作
    * 射击时机由外部决定
    */
   shoot() {
-    const bullet = databus.pool.getItemByClass('bullet', Bullet)
-
-    bullet.init(
-      this.x + this.width / 2 - bullet.width / 2,
-      this.y - 10,
-      10
-    )
-
-    databus.bullets.push(bullet)
+    this.shoot_beta(-30,0);
+    this.shoot_beta(-15,1);
+    this.shoot_beta(0,2);
+    this.shoot_beta(15,3);
+    this.shoot_beta(30,4);
   }
 }
