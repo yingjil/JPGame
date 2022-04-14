@@ -13,7 +13,7 @@ const BULLET_FIRE_MAX = 8
 const BULLET_FIRE_MIN = 1
 const BULLET_POS = 15
 const BULLET_OFFSET = 1
-const BULLET_SPEED = 3
+const BULLET_SPEED = 10
 
 const databus = new DataBus()
 
