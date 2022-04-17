@@ -16,10 +16,10 @@ export default class Bullet extends Sprite {
     super(BULLET_IMG_SRC, BULLET_WIDTH, BULLET_HEIGHT)
   }
 
-  init(x, y, speed) {
+  init(x, y, speed,offset) {
     this.x = x
     this.y = y
-
+    this.offset = offset  //index of bullet; 
     this[__.speed] = speed
 
     this.visible = true
@@ -28,7 +28,7 @@ export default class Bullet extends Sprite {
   // 每一帧更新子弹位置
   update() {
     this.y -= this[__.speed]
-
+    this.x += this.offset;
     // 超出屏幕外回收自身
     if (this.y < -this.height) databus.removeBullets(this)
   }
